@@ -1,6 +1,7 @@
 # Public-Library
 
-**Project Description:** We are developing a booking system designed for a public library. The system should be able to function as a record keeper of the books owned by the library as well as a service console for both 
+<h2>Project Description</h2>
+We are developing a booking system designed for a public library. The system should be able to function as a record keeper of the books owned by the library as well as a service console for both 
 
 **Major Features:**
 - Searching and locating books for staff and library users
@@ -19,7 +20,7 @@
 **SDLC:** Incremental Development
 We chose incremental development because we are a small group of three members co-located working on a small project, which shows there is no need for a scrutinizing plan-driven model. Instead, an incremental development model may aid us in delivering the project faster. Furthermore we believe the structure of the program will not suffer much deterioration from its incremental builds because the software being produced is simple in nature.
 
-**SDLC Phases and Tasks**
+  <h2>SDLC Phases and Tasks</h2>
 Specification 
 - Identify the project idea
 - Define the requirements
