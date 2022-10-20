@@ -13,6 +13,7 @@ We are developing a booking system designed for a public library. The system sho
 
 <h2>How The Classes Are Organized</h2>
 
+![uml class](https://github.com/GROUP23COSC310/Public-Library/blob/main/Screen%20Shot%202022-10-19%20at%209.58.47%20PM.png)
 
 <h2>How To Compile and Run The Code</h2>
 At the moment, you can clone the repository onto your device. Once you have access to the directory, load it on an IDE platform of your choice and run the "BookManagementSystem.java" file
