@@ -1,12 +1,13 @@
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Scanner;
 
 public class PublicLibrary {
     private String _name;
     public ArrayList<User> Users = new ArrayList<>();
 
-    public ArrayList<Book> Books = new ArrayList<>();
+    public List<List<Copy>> Books = new ArrayList<List<Copy>>();
     public Admin admin = new Admin();
 
 
@@ -22,9 +23,14 @@ public class PublicLibrary {
         Users.add(user);
     }
 
-    public void addBook(Book book){
-        Books.add(book);
+    public void addBook(Copy book){
+        Books.add(new ArrayList<Copy>());
     }
+    public void addCopy() {
+    	
+    }
+    
+    
     public void deleteUser(String name){
         boolean flag = false;
             for (int i = 0; i < Users.size(); i++){
