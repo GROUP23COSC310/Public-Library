@@ -1,5 +1,6 @@
 package com.example.bookmanagementproject;
 
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -27,12 +28,12 @@ public class ReturnBooks {
 
     private ResultSet resultSet;
 
-    public void returnBook(){
+    public int returnBook(String username, String ISBN){
         String sql = "delete from Assigned where usernameFK = ? and ISBNFK = ?";
         String rows = "select count(*) from Assigned";
         String sql1 = "update Book set inventory = ? where ISBN = ?";
         String sql2 = "select inventory from Book where ISBN = ?";
-        Alert alert;
+        final Alert[] alert = new Alert[1];
         int numRowsBefore = 0;
         int numRowsAfter = 0;
         connect = Database.connectDB();
@@ -42,8 +43,8 @@ public class ReturnBooks {
             if (resultSet.next())
                 numRowsBefore = resultSet.getInt(1);
             preparedStatement = connect.prepareStatement(sql);
-            preparedStatement.setString(1,usernameField.getText());
-            preparedStatement.setString(2,ISBNfield.getText());
+            preparedStatement.setString(1,username);
+            preparedStatement.setString(2,ISBN);
             preparedStatement.executeUpdate();
             resultSet = statement.executeQuery(rows);
             if(resultSet.next())
@@ -51,41 +52,58 @@ public class ReturnBooks {
             resultSet.close();
             statement.close();
             if(numRowsBefore == numRowsAfter+1){
-                alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Admin message");
-                alert.setHeaderText(null);
-                alert.setContentText("Book returned successfully.");
-                alert.showAndWait();
+                Platform.runLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        alert[0] = new Alert(Alert.AlertType.INFORMATION);
+                        alert[0].setTitle("Admin message");
+                        alert[0].setHeaderText(null);
+                        alert[0].setContentText("Book returned successfully.");
+                        alert[0].showAndWait();
+                    }
+                });
                 preparedStatement = connect.prepareStatement(sql2);
-                preparedStatement.setString(1, ISBNfield.getText());
+                preparedStatement.setString(1, ISBN);
                 resultSet = preparedStatement.executeQuery();
                 if(resultSet.next()){
                     preparedStatement = connect.prepareStatement(sql1);
                     int inventory = resultSet.getInt(1);
-                    System.out.println(inventory);
                     preparedStatement.setInt(1, inventory+1);
-                    preparedStatement.setString(2, ISBNfield.getText());
+                    preparedStatement.setString(2, ISBN);
                     preparedStatement.executeUpdate();
                 }
+                return 1;
             }else{
-                alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Admin message");
-                alert.setHeaderText(null);
-                alert.setContentText("Either user does not have this checked out book or there is a typo in your fields.");
-                alert.showAndWait();
+                Platform.runLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        alert[0] = new Alert(Alert.AlertType.ERROR);
+                        alert[0].setTitle("Admin message");
+                        alert[0].setHeaderText(null);
+                        alert[0].setContentText("Either user does not have this checked out book or there is a typo in your fields.");
+                        alert[0].showAndWait();
+                    }
+                });
+                return 0;
             }
         } catch (SQLException e) {
-            alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Admin message");
-            alert.setHeaderText(null);
-            alert.setContentText("Unknown error happened.");
-            alert.showAndWait();
+            Platform.runLater(new Runnable() {
+                @Override
+                public void run() {
+                    alert[0] = new Alert(Alert.AlertType.ERROR);
+                    alert[0].setTitle("Admin message");
+                    alert[0].setHeaderText(null);
+                    alert[0].setContentText("Unknown error happened.");
+                    alert[0].showAndWait();
+                }
+            });
+            return 0;
         }
     }
 
 
     public void returnSave(){
-        returnBook();
+        returnBook(usernameField.getText(), ISBNfield.getText());
         returnField.getScene().getWindow().hide();
     }
 

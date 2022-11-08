@@ -1,5 +1,6 @@
 package com.example.bookmanagementproject;
 
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -27,49 +28,71 @@ public class LoginController {
     private ResultSet resultSet;
 
     public static String usernameUsed;
-    public void login(){
-        if(Objects.equals(username.getText(), "admin")){
+    public int loginPanel(String username, String password){
+        if(Objects.equals(username, "admin")){
             String sql = "select * from Admin where username = ? and password = ?";
             connect = Database.connectDB();
 
             try {
                 preparedStatement = connect.prepareStatement(sql);
-                preparedStatement.setString(1, username.getText());
-                preparedStatement.setString(2, password.getText());
+                preparedStatement.setString(1, username);
+                preparedStatement.setString(2, password);
                 resultSet = preparedStatement.executeQuery();
-
-                Alert alert;
-                if (username.getText().isEmpty() || password.getText().isEmpty()){
-                    alert = new Alert(Alert.AlertType.ERROR);
-                    alert.setTitle("Admin message");
-                    alert.setHeaderText(null);
-                    alert.setContentText("Please fill in all the blanks.");
-                    alert.showAndWait();
+                final Alert[] alert = new Alert[1];
+                if (username.isEmpty() || password.isEmpty()){
+                    Platform.runLater(new Runnable() {
+                        @Override
+                        public void run() {
+                            alert[0] = new Alert(Alert.AlertType.ERROR);
+                            alert[0].setTitle("Admin message");
+                            alert[0].setHeaderText(null);
+                            alert[0].setContentText("Please fill in all the blanks.");
+                            alert[0].showAndWait();
+                        }
+                    });
+                    return 0;
                 }
                 else {
                     if (resultSet.next()){
-                        alert = new Alert(Alert.AlertType.INFORMATION);
-                        alert.setTitle("Admin message");
-                        alert.setHeaderText(null);
-                        alert.setContentText("Successfully logged in.");
-                        alert.showAndWait();
+                        Platform.runLater(new Runnable() {
+                            @Override
+                            public void run() {
+                                alert[0] = new Alert(Alert.AlertType.INFORMATION);
+                                alert[0].setTitle("Admin message");
+                                alert[0].setHeaderText(null);
+                                alert[0].setContentText("Successfully logged in.");
+                                alert[0].showAndWait();
+                                loginButton.getScene().getWindow().hide();
+                                Parent root = null;
+                                try {
+                                    root = FXMLLoader.load(getClass().getResource("DashboardAdmin.fxml"));
+                                } catch (IOException e) {
+                                    throw new RuntimeException(e);
+                                }
 
-                        loginButton.getScene().getWindow().hide();
-                        Parent root = FXMLLoader.load(getClass().getResource("DashboardAdmin.fxml"));
+                                Stage stage = new Stage();
+                                Scene scene = new Scene(root);
+                                stage.setScene(scene);
+                                stage.show();
+                            }
+                        });
 
-                        Stage stage = new Stage();
-                        Scene scene = new Scene(root);
-                        stage.setScene(scene);
-                        stage.show();
+                        return 1;
                     }else{
-                        alert = new Alert(Alert.AlertType.ERROR);
-                        alert.setTitle("Admin message");
-                        alert.setHeaderText(null);
-                        alert.setContentText("Credentials are not found. Please try again.");
-                        alert.showAndWait();
+                        Platform.runLater(new Runnable() {
+                            @Override
+                            public void run() {
+                                alert[0] = new Alert(Alert.AlertType.ERROR);
+                                alert[0].setTitle("Admin message");
+                                alert[0].setHeaderText(null);
+                                alert[0].setContentText("Credentials are not found. Please try again.");
+                                alert[0].showAndWait();
+                            }
+                        });
+                        return 0;
                     }
                 }
-            } catch (SQLException | IOException e) {
+            } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
         }else{
@@ -78,45 +101,74 @@ public class LoginController {
 
             try {
                 preparedStatement = connect.prepareStatement(sql);
-                preparedStatement.setString(1, username.getText());
-                preparedStatement.setString(2, password.getText());
+                preparedStatement.setString(1, username);
+                preparedStatement.setString(2, password);
                 resultSet = preparedStatement.executeQuery();
-
-                Alert alert;
-                if (username.getText().isEmpty() || password.getText().isEmpty()){
-                    alert = new Alert(Alert.AlertType.ERROR);
-                    alert.setTitle("Admin message");
-                    alert.setHeaderText(null);
-                    alert.setContentText("Please fill in all the blanks.");
-                    alert.showAndWait();
+                final Alert[] alert = new Alert[1];
+                if (username.isEmpty() || password.isEmpty()){
+                    Platform.runLater(new Runnable() {
+                        @Override
+                        public void run() {
+                            alert[0] = new Alert(Alert.AlertType.ERROR);
+                            alert[0].setTitle("Admin message");
+                            alert[0].setHeaderText(null);
+                            alert[0].setContentText("Please fill in all the blanks.");
+                            alert[0].showAndWait();
+                        }
+                    });
+                    return 0;
                 }
                 else {
                     if (resultSet.next()){
-                        alert = new Alert(Alert.AlertType.INFORMATION);
-                        alert.setTitle("Admin message");
-                        alert.setHeaderText(null);
-                        alert.setContentText("Successfully logged in.");
-                        alert.showAndWait();
+                        Platform.runLater(new Runnable() {
+                            @Override
+                            public void run() {
+                                alert[0] = new Alert(Alert.AlertType.INFORMATION);
+                                alert[0].setTitle("Admin message");
+                                alert[0].setHeaderText(null);
+                                alert[0].setContentText("Successfully logged in.");
+                                alert[0].showAndWait();
+                                try {
+                                    usernameUsed=resultSet.getString(1);
+                                } catch (SQLException e) {
+                                    throw new RuntimeException(e);
+                                }
+                                loginButton.getScene().getWindow().hide();
+                                Parent root = null;
+                                try {
+                                    root = FXMLLoader.load(getClass().getResource("DashboardUser.fxml"));
+                                } catch (IOException e) {
+                                    throw new RuntimeException(e);
+                                }
 
-                        loginButton.getScene().getWindow().hide();
-                        usernameUsed = username.getText();
-                        Parent root = FXMLLoader.load(getClass().getResource("DashboardUser.fxml"));
-
-                        Stage stage = new Stage();
-                        Scene scene = new Scene(root);
-                        stage.setScene(scene);
-                        stage.show();
+                                Stage stage = new Stage();
+                                Scene scene = new Scene(root);
+                                stage.setScene(scene);
+                                stage.show();
+                            }
+                        });
+                        return 1;
                     }else{
-                        alert = new Alert(Alert.AlertType.ERROR);
-                        alert.setTitle("Admin message");
-                        alert.setHeaderText(null);
-                        alert.setContentText("Credentials are not found. Please try again.");
-                        alert.showAndWait();
+                        Platform.runLater(new Runnable() {
+                            @Override
+                            public void run() {
+                                alert[0] = new Alert(Alert.AlertType.ERROR);
+                                alert[0].setTitle("Admin message");
+                                alert[0].setHeaderText(null);
+                                alert[0].setContentText("Credentials are not found. Please try again.");
+                                alert[0].showAndWait();
+                            }
+                        });
+                        return 0;
                     }
                 }
-            } catch (SQLException | IOException e) {
+            } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
         }
+    }
+
+    public void login(){
+        loginPanel(username.getText(), password.getText());
     }
 }
