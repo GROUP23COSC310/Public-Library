@@ -18,7 +18,7 @@ JavaFX: We utilized the JavaFX public library and its companion program, Scene B
 Screens: Each screen has a java class which operates its functions and methods and variables. The attached XML file will include the code for how the screen ought to look. JavaFX methods were used to switch between screens and showcase alerts. These classes take care of reading inputs of the user in the form of buttons and text fields.
 
 <h2>How The SQL Datbase is Designed - Relational Model</h2>
-![alt text](https://github.com/GROUP23COSC310/Public-Library/blob/ade125d9c62020a9485b810d2116e32a1db91a0d/Screen%20Shot%202022-11-08%20at%201.13.08%20PM.png)
+<img width="949" alt="Screen Shot 2022-11-08 at 1 13 08 PM" src="https://user-images.githubusercontent.com/65127296/200677982-6cfa3b41-b80d-44b8-abc9-c4262b82163f.png">
 
 <h2>How the Functionalities Operate</h2>
 
