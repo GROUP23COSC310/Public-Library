@@ -21,11 +21,17 @@ Screens: Each screen has a java class which operates its functions and methods a
 <img width="949" alt="Screen Shot 2022-11-08 at 1 13 08 PM" src="https://user-images.githubusercontent.com/65127296/200677982-6cfa3b41-b80d-44b8-abc9-c4262b82163f.png">
 
 <h2>How the Functionalities Operate</h2>
-- **Log In:** many systems may need a simple log in function to have a wall of security behind the system
-- **Check Out:** whenever objects are assigned to user’s (such as orders, check outs, and buy outs) this function can help assign an object in a database to a user
-- **Return:** systems which expan upon the check out and involve a form of return will use this method to return the ‘taken out’ object back into the inventory within the database
-- **Search:** the search method is broad and may be utilized by any system that wishes to get result sets from a SQL database
-- **Create Users:** any system that has users with distinct data sets has to be able to create new users, thus making use of our method which creates an object and saves its data into an SQL table
+<ul>
+  <li><strong>Log In:</strong> many systems may need a simple log in function to have a wall of security behind the system</li>
+  <li><strong>Check Out:</strong> whenever objects are assigned to user’s (such as orders, check outs, and buy outs) this function can help assign an object in a database to a user
+</li>
+  <li><strong>Return:</strong> systems which expan upon the check out and involve a form of return will use this method to return the ‘taken out’ object back into the inventory within the database
+</li>
+  <li><strong>Search:</strong> the search method is broad and may be utilized by any system that wishes to get result sets from a SQL database
+</li>
+  <li><strong>Create Users:</strong> any system that has users with distinct data sets has to be able to create new users, thus making use of our method which creates an object and saves its data into an SQL table
+</li>
+</ul>
 
 <h2>How To Compile and Run The Code</h2>
 At the moment, you can clone the repository onto your device. Once you have access to the directory, load it on an IDE platform of your choice and run the "Login.java" file from the "BookManagementProject" folder
