@@ -11,6 +11,12 @@ We are developing a booking system designed for a public library. The system sho
 - Log-in System
 - Admin panel
 
+<h2> How The GUI Works</h2>
+
+JavaFX: We utilized the JavaFX public library and its companion program, Scene Builder, to create the visual design of the graphic interface. The library utlizes java classes and XML files to showcase the screens.
+
+Screens: Each screen has a java class which operates its functions and methods and variables. The attached XML file will include the code for how the screen ought to look. JavaFX methods were used to switch between screens and showcase alerts. These classes take care of reading inputs of the user in the form of buttons and text fields.
+
 <h2>How The Classes Are Organized</h2>
 
 PublicLibrary: This is the main parent class which holds all other classes including admin accounts, user accounts, and books. This class has functionalities such as adding, deleting, editing users and books. Additionally, it can show users and books in the console.
